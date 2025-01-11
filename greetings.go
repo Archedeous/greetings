@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 // Hello returns a greeting for the named person.
 func Hello(name string) (string, error) {
-	// If no name was given, return an error with a message.
 	if name == "" {
 		return name, errors.New("empty name")
 	}
@@ -20,14 +20,20 @@ func Hello(name string) (string, error) {
 // randomFormat returns one of a set of greeting messages. The returned
 // message is selected at random.
 func randomFormat() string {
-	// A slice of message formats.
 	formats := []string{
 		"Hi, %v. Welcome!",
 		"Great to see you, %v!",
 		"Hail, %v! Well met!",
 	}
 
-	// Return a randomly selected message format by specifying
-	// a random index for the slice of formats.
-	return formats[rand.Intn(len(formats))]
+	// Seed a new random generator and log its seed.
+	seed := time.Now().UnixNano()
+	fmt.Println("Seed:", seed) // Debugging output
+	rnd := rand.New(rand.NewSource(seed))
+
+	// Get the random index and log it.
+	index := rnd.Intn(len(formats))
+	fmt.Println("Selected index:", index) // Debugging output
+
+	return formats[index]
 }
